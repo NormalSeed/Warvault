@@ -32,6 +32,7 @@ public class PlayerMove : MonoBehaviour
         Move();
     }
 
+    // 플레이어 캐릭터 이동 메서드
     void Move()
     {
         float h = Input.GetAxis("Horizontal");
