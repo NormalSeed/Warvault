@@ -12,7 +12,9 @@ public class PlayerPresenter : MonoBehaviour
     [SerializeField] private Transform playerOutlook;
     [SerializeField] private float currentSpeed;
 
-    void Awake()
+    public Transform cameraTarget;
+
+    private void Awake()
     {
         model = new PlayerModel();
         view = GetComponent<PlayerView>();
@@ -21,13 +23,13 @@ public class PlayerPresenter : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         HandleMovement();
         HandleAnimation();
@@ -45,27 +47,42 @@ public class PlayerPresenter : MonoBehaviour
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        Vector3 direction = new Vector3(h, 0, v);
-        Vector3 move = direction * model.MoveSpeed;
-        currentSpeed = direction.magnitude;
-        move = transform.TransformDirection(move);
+        Vector3 inputDir = new Vector3(h, 0, v);
 
-        controller.Move(move);
+        // 카메라의 수평 방향만 추출
+        Vector3 camForward = cameraTarget.forward;
+        camForward.y = 0;
+        camForward.Normalize();
 
+        Vector3 camRight = cameraTarget.right;
+        camRight.y = 0;
+        camRight.Normalize();
+
+        // 입력을 카메라 기준으로 변환
+        Vector3 moveDir = camForward * v + camRight * h;
+
+        // 속도 갱신 (입력 크기 기준)
+        currentSpeed = moveDir.magnitude;
+
+        // 이동 방향 정규화
+        if (moveDir.sqrMagnitude > 0.01f)
+            moveDir.Normalize();
+
+        // 중력 처리
         if (controller.isGrounded && model.Velocity.y < 0)
-        {
-            Vector3 velocity = model.Velocity;
-            velocity.y = -2f;
-            model.Velocity = velocity;
-        }
+            model.Velocity.y = -2f;
 
         model.Velocity.y += model.Gravity * Time.deltaTime;
-        controller.Move(model.Velocity * Time.deltaTime);
 
+        // 최종 이동 벡터 = 이동 + 중력
+        Vector3 finalMove = moveDir * model.MoveSpeed + new Vector3(0, model.Velocity.y, 0);
+
+        // CharacterController에 적용
+        controller.Move(finalMove * Time.deltaTime);
+
+        // 점프 처리
         if (controller.isGrounded && Input.GetButtonDown("Jump"))
-        {
             model.Velocity.y = Mathf.Sqrt(model.JumpHeight * -2f * model.Gravity);
-        }
     }
 
     private void Rotate()
@@ -73,14 +90,24 @@ public class PlayerPresenter : MonoBehaviour
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        Vector3 direction = new Vector3(h, 0, v);
+        Vector3 inputDir = new Vector3(h, 0, v);
 
-        if (direction.sqrMagnitude > 0.01f)
+        if (inputDir.sqrMagnitude > 0.01f)
         {
-            
-            direction.y = 0f; // 수직 회전 제거
+            // 카메라의 수평 방향만 추출
+            Vector3 camForward = cameraTarget.forward;
+            camForward.y = 0;
+            camForward.Normalize();
 
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            Vector3 camRight = cameraTarget.right;
+            camRight.y = 0;
+            camRight.Normalize();
+
+            // 입력을 카메라 기준으로 변환 (yaw만 반영)
+            Vector3 lookDir = camForward * v + camRight * h;
+            lookDir.Normalize();
+
+            Quaternion targetRotation = Quaternion.LookRotation(lookDir);
             playerOutlook.rotation = Quaternion.Slerp(playerOutlook.rotation, targetRotation, 10f * Time.deltaTime);
         }
     }

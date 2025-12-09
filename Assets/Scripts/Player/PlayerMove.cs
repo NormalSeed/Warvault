@@ -11,6 +11,8 @@ public class PlayerMove : MonoBehaviour
 
     Actions actions;
 
+    public Transform cameraTarget;
+
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
