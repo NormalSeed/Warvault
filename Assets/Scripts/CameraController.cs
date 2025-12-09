@@ -44,8 +44,9 @@ public class CameraController : MonoBehaviour
                 isAiming = false;
                 SwitchCamera(isAiming);
             }
+
+            RotateCamera();
         }
-        RotateCamera();
     }
 
     private void RotateCamera()
