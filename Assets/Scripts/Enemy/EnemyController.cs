@@ -23,12 +23,18 @@ public class EnemyController : MonoBehaviour
         if (player != null)
             target = player.transform;
 
+        // 노드 등록
         CreateAttackSeq();
         CreateDetectSeq();
+        returnAction = new ActionNode(ReturnAction);
+        idleAction = new ActionNode(IdleAction);
 
+        // 루트 노드 등록
         rootNode = new SelectorNode();
         rootNode.Add(attackSeq);
         rootNode.Add(detectSeq);
+        rootNode.Add(returnAction);
+        rootNode.Add(idleAction);
     }
 
     #region Attack Sequence
@@ -99,6 +105,25 @@ public class EnemyController : MonoBehaviour
         return INode.STATE.FAILED;
     }
     #endregion
+
+    INode.STATE IdleAction()
+    {
+        Debug.Log("대기 중");
+        return INode.STATE.RUN;
+    }
+
+    INode.STATE ReturnAction()
+    {
+        if (Vector3.Distance(transform.position, originPos) >= 0.1f)
+        {
+            Debug.Log("복귀 중");
+            transform.forward = (originPos - transform.position).normalized;
+            transform.Translate(Vector3.forward * Time.deltaTime, Space.Self);
+            return INode.STATE.RUN;
+        }
+        else
+            return INode.STATE.SUCCESS;
+    }
 
     void Update()
     {
