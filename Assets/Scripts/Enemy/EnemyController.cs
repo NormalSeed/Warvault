@@ -96,9 +96,13 @@ public class EnemyController : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, target.position) > AttackRange)
         {
-            Debug.Log("추적 중");
-            transform.forward = (target.position - transform.position).normalized;
+            // y축을 무시한 수평 방향 벡터 계산
+            Vector3 targetPos = new Vector3(target.position.x, transform.position.y, target.position.z);
+            Vector3 dir = (targetPos - transform.position).normalized;
+
+            transform.forward = dir;
             transform.Translate(Vector3.forward * Time.deltaTime, Space.Self);
+
             return INode.STATE.RUN;
         }
         
@@ -117,7 +121,12 @@ public class EnemyController : MonoBehaviour
         if (Vector3.Distance(transform.position, originPos) >= 0.1f)
         {
             Debug.Log("복귀 중");
-            transform.forward = (originPos - transform.position).normalized;
+
+            // y축을 무시한 수평 방향 벡터 계산
+            Vector3 originFlat = new Vector3(originPos.x, transform.position.y, originPos.z);
+            Vector3 dir = (originFlat - transform.position).normalized;
+
+            transform.forward = dir;
             transform.Translate(Vector3.forward * Time.deltaTime, Space.Self);
             return INode.STATE.RUN;
         }
