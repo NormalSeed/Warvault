@@ -12,18 +12,18 @@ public class CameraController : MonoBehaviour
 
     [Header("회전 속도 조절 변수")]
     public float sensitivity = 100f;
-    [SerializeField] private float xRotation = 0f;
-    [SerializeField] private float yRotation = 0f;
+    [SerializeField] float xRotation = 0f;
+    [SerializeField] float yRotation = 0f;
 
-    private bool isAiming = false;
-    private bool isMenuOpen = false;
+    bool isAiming = false;
+    bool isMenuOpen = false;
 
-    private void Start()
+    void Start()
     {
         LockCursor();
     }
 
-    private void Update()
+    void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -49,7 +49,7 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    private void RotateCamera()
+    void RotateCamera()
     {
         float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
@@ -61,7 +61,7 @@ public class CameraController : MonoBehaviour
         cameraTarget.transform.rotation = Quaternion.Euler(xRotation, yRotation, 0f);
     }
 
-    private void SwitchCamera(bool aiming)
+    void SwitchCamera(bool aiming)
     {
         if (aiming)
         {

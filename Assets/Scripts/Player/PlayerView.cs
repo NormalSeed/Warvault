@@ -7,7 +7,7 @@ public class PlayerView : MonoBehaviour
     public CharacterController Controller { get; private set; }
     public Animator Animator { get; private set; }
 
-    private void Awake()
+    void Awake()
     {
         Controller = GetComponent<CharacterController>();
         Animator = GetComponentInChildren<Animator>();

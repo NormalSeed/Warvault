@@ -4,32 +4,30 @@ using UnityEngine;
 
 public class PlayerPresenter : MonoBehaviour
 {
-    private PlayerModel model;
-    private PlayerView view;
-    private PlayerMove move;
-    private CharacterController controller;
+    PlayerModel model;
+    PlayerView view;
+    CharacterController controller;
 
-    [SerializeField] private Transform playerOutlook;
-    [SerializeField] private float currentSpeed;
+    [SerializeField] Transform playerOutlook;
+    [SerializeField] float currentSpeed;
 
     public Transform cameraTarget;
 
-    private void Awake()
+    void Awake()
     {
         model = new PlayerModel();
         view = GetComponent<PlayerView>();
-        move = GetComponent<PlayerMove>();
         controller = GetComponent<CharacterController>();
     }
 
     // Start is called before the first frame update
-    private void Start()
+    void Start()
     {
         
     }
 
     // Update is called once per frame
-    private void Update()
+    void Update()
     {
         HandleMovement();
         HandleAnimation();
@@ -42,7 +40,7 @@ public class PlayerPresenter : MonoBehaviour
         Rotate();
     }
 
-    private void Move()
+    void Move()
     {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
@@ -85,7 +83,7 @@ public class PlayerPresenter : MonoBehaviour
             model.Velocity.y = Mathf.Sqrt(model.JumpHeight * -2f * model.Gravity);
     }
 
-    private void Rotate()
+    void Rotate()
     {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
