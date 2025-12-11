@@ -23,13 +23,13 @@ public class EnemyController : MonoBehaviour
         if (player != null)
             target = player.transform;
 
-        // 노드 등록
+        // 노드 생성
         CreateAttackSeq();
         CreateDetectSeq();
         returnAction = new ActionNode(ReturnAction);
         idleAction = new ActionNode(IdleAction);
 
-        // 루트 노드 등록
+        // 노드 등록
         rootNode = new SelectorNode();
         rootNode.Add(attackSeq);
         rootNode.Add(detectSeq);
