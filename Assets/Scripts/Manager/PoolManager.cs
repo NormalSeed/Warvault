@@ -29,7 +29,7 @@ public class PoolManager : MonoBehaviour
         {
             PooledObject pooledObj = Instantiate(pool.prefab, pool.parentTransform).GetComponent<PooledObject>();
             pooledObj.gameObject.SetActive(false);
-            pooledObj.InitPool(this, name);
+            
             poolDictionary[name].Add(pooledObj);
         }
     }
@@ -60,11 +60,5 @@ public class PoolManager : MonoBehaviour
         poolObject.OnSpawn();
 
         return poolObject;
-    }
-
-    public void ReturnToPool(PooledObject obj, string name)
-    {
-        obj.OnDespawn();
-        obj.gameObject.SetActive(false);
     }
 }
