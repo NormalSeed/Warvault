@@ -4,12 +4,24 @@ using UnityEngine;
 
 public class PoolManager : MonoBehaviour
 {
+    public static PoolManager Instance { get; private set; }
+
     [Header("Pool Info")]
     [SerializeField] List<ObjectPool> pools;
-    private Dictionary<string, List<PooledObject>> poolDictionary;
+    Dictionary<string, List<PooledObject>> poolDictionary;
 
-    private void Awake()
+    void Awake()
     {
+        // 싱글톤 초기화
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+
+        // poolDictionary 초기화
         poolDictionary = new Dictionary<string, List<PooledObject>>();
 
         foreach (ObjectPool pool in pools)
@@ -34,7 +46,10 @@ public class PoolManager : MonoBehaviour
         }
     }
 
-    public PooledObject SpawnFromPool(string name)
+    /// <summary>
+    /// 지정된 위치와 회전에서 풀 오브젝트를 꺼내옴
+    /// </summary>
+    public PooledObject SpawnFromPool(string name, Vector3 position, Quaternion rotation)
     {
         if (!poolDictionary.ContainsKey(name))
             return null;
@@ -57,6 +72,7 @@ public class PoolManager : MonoBehaviour
         }
 
         poolObject.gameObject.SetActive(true);
+        poolObject.transform.SetPositionAndRotation(position, rotation);
         poolObject.OnSpawn();
 
         return poolObject;

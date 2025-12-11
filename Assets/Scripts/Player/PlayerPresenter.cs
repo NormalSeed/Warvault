@@ -12,6 +12,7 @@ public class PlayerPresenter : MonoBehaviour
     [SerializeField] float currentSpeed;
 
     public Transform cameraTarget;
+    [SerializeField] Transform firePoint;
 
     void Awake()
     {
@@ -31,6 +32,12 @@ public class PlayerPresenter : MonoBehaviour
     {
         HandleMovement();
         HandleAnimation();
+
+        // 테스트용 총알 발사 로직
+        if (Input.GetMouseButtonDown(0))
+        {
+            PoolManager.Instance.SpawnFromPool("TestBullet", firePoint.position, firePoint.rotation);
+        }
     }
 
     // 플레이어 캐릭터 이동 메서드

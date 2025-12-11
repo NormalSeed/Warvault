@@ -122,6 +122,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &83534714
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 83534715}
+  m_Layer: 0
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &83534715
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 83534714}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.20300001, z: 0.271}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1406533490}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &321781655
 GameObject:
   m_ObjectHideFlags: 3
@@ -360,6 +391,7 @@ MonoBehaviour:
   playerOutlook: {fileID: 1927540667}
   currentSpeed: 0
   cameraTarget: {fileID: 1406533490}
+  firePoint: {fileID: 83534715}
 --- !u!143 &630675572
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1360,7 +1392,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.853, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 83534715}
   m_Father: {fileID: 630675569}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1425897770
@@ -1688,6 +1721,22 @@ PrefabInstance:
       propertyPath: pools.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6559272425696659292, guid: c5c68e75650a6594eacd0e95f7e69846, type: 3}
+      propertyPath: pools.Array.data[0].name
+      value: TestBullet
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559272425696659292, guid: c5c68e75650a6594eacd0e95f7e69846, type: 3}
+      propertyPath: pools.Array.data[0].size
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559272425696659292, guid: c5c68e75650a6594eacd0e95f7e69846, type: 3}
+      propertyPath: pools.Array.data[0].prefab
+      value: 
+      objectReference: {fileID: 8727297015313858301, guid: 1d8c0d893f3bdec41bbcbf741834d6bc, type: 3}
+    - target: {fileID: 6559272425696659292, guid: c5c68e75650a6594eacd0e95f7e69846, type: 3}
+      propertyPath: pools.Array.data[0].parentTransform
+      value: 
+      objectReference: {fileID: 83534715}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
