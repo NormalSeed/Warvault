@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
@@ -15,8 +13,18 @@ public class EnemyController : MonoBehaviour
     public int AttackRange;
     Vector3 originPos;
 
+    Animator animator;
+    readonly int idleHash = Animator.StringToHash("Idle");
+    readonly int walkHash = Animator.StringToHash("Walk");
+    readonly int shootA = Animator.StringToHash("ShootA");
+    readonly int shootB = Animator.StringToHash("ShootB");
+    readonly int dead = Animator.StringToHash("Dead");
+    bool isShootA = true;
+
     void Start()
     {
+        animator = GetComponent<Animator>();
+
         originPos = transform.position;
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -66,6 +74,20 @@ public class EnemyController : MonoBehaviour
     {
         Debug.Log("공격 중");
 
+        // 공격 애니메이션
+        if (isShootA)
+        {
+            animator.Play(shootA);
+            isShootA = false;
+        }
+        else
+        {
+            animator.Play(shootB);
+            isShootA = true;
+        }
+
+        // 공격 로직
+
         return INode.STATE.RUN;
     }
     #endregion
@@ -100,7 +122,9 @@ public class EnemyController : MonoBehaviour
             Vector3 targetPos = new Vector3(target.position.x, transform.position.y, target.position.z);
             Vector3 dir = (targetPos - transform.position).normalized;
 
-            transform.forward = dir;
+            Quaternion targetRotation = Quaternion.LookRotation(dir);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+
             transform.Translate(Vector3.forward * Time.deltaTime, Space.Self);
 
             return INode.STATE.RUN;
@@ -126,7 +150,9 @@ public class EnemyController : MonoBehaviour
             Vector3 originFlat = new Vector3(originPos.x, transform.position.y, originPos.z);
             Vector3 dir = (originFlat - transform.position).normalized;
 
-            transform.forward = dir;
+            Quaternion targetRotation = Quaternion.LookRotation(dir);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+
             transform.Translate(Vector3.forward * Time.deltaTime, Space.Self);
             return INode.STATE.RUN;
         }
