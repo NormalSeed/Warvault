@@ -24,7 +24,8 @@ public class PlayerPresenter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        model.CurHp.Value = model.Hp;
+        model.CurHp.Subscribe(OnHpChanged);
     }
 
     // Update is called once per frame
@@ -37,6 +38,12 @@ public class PlayerPresenter : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             PoolManager.Instance.SpawnFromPool("TestBullet", firePoint.position, firePoint.rotation);
+        }
+
+        // 테스트용 TakeDamage
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            TakeDamage(10f);
         }
     }
 
@@ -122,5 +129,18 @@ public class PlayerPresenter : MonoBehaviour
         view.Animator.SetFloat("Speed", currentSpeed);
         if (controller.isGrounded && Input.GetButtonDown("Jump"))
             view.Animator.SetTrigger("Jump");
+    }
+
+    public void TakeDamage(float damage)
+    {
+        model.CurHp.Value = Mathf.Max(model.CurHp.Value - damage, 0);
+    }
+
+    // ObservableProperty 구독 메서드
+    void OnHpChanged(float newHp)
+    {
+        float normalizedHp = newHp / model.Hp;
+        view.SetHpBar(normalizedHp);
+        Debug.Log($"현재 HP : {newHp}\n현재 HP 비율 : {normalizedHp}");
     }
 }

@@ -10,5 +10,5 @@ public class PlayerModel
 
     // Player 스탯
     public float Hp { get; set; } = 100f;
-    
+    public ObservableProperty<float> CurHp { get; private set; } = new();
 }
