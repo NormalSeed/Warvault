@@ -7,4 +7,8 @@ public class PlayerModel
     public float JumpHeight { get; set; } = 0.3f;
 
     public Vector3 Velocity = Vector3.zero;
+
+    // Player 스탯
+    public float Hp { get; set; } = 100f;
+    
 }

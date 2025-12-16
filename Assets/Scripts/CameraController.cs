@@ -21,6 +21,10 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         LockCursor();
+
+        xRotation = 0f;
+        yRotation = 0f;
+        cameraTarget.rotation = Quaternion.Euler(xRotation, yRotation, 0f);
     }
 
     void Update()
