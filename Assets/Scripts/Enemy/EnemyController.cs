@@ -13,9 +13,14 @@ public class EnemyController : MonoBehaviour
     public int AttackRange;
     Vector3 originPos;
 
+    float attackDelay = 0.5f;
+    [SerializeField] Transform firePoint1;
+    [SerializeField] Transform firePoint2;
+    bool isAttack1 = true;
+
     Animator animator;
-    readonly int idleHash = Animator.StringToHash("Idle");
-    readonly int walkHash = Animator.StringToHash("Walk");
+    readonly int idle = Animator.StringToHash("Idle");
+    readonly int walk = Animator.StringToHash("Walk");
     readonly int shootA = Animator.StringToHash("ShootA");
     readonly int shootB = Animator.StringToHash("ShootB");
     readonly int dead = Animator.StringToHash("Dead");
@@ -87,6 +92,20 @@ public class EnemyController : MonoBehaviour
         }
 
         // 공격 로직
+        if (attackDelay <= 0f)
+        {
+            if (isAttack1)
+            {
+                PoolManager.Instance.SpawnFromPool("TestEnemyBullet1", firePoint1.position, firePoint1.rotation);
+            }
+            else
+            {
+                PoolManager.Instance.SpawnFromPool("TestEnemyBullet2", firePoint2.position, firePoint2.rotation);
+            }
+
+            isAttack1 = !isAttack1;
+            attackDelay = 0.5f;
+        }
 
         return INode.STATE.RUN;
     }
@@ -127,6 +146,8 @@ public class EnemyController : MonoBehaviour
 
             transform.Translate(Vector3.forward * Time.deltaTime, Space.Self);
 
+            animator.Play(walk);
+
             return INode.STATE.RUN;
         }
         
@@ -154,6 +175,9 @@ public class EnemyController : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
 
             transform.Translate(Vector3.forward * Time.deltaTime, Space.Self);
+
+            animator.Play(walk);
+
             return INode.STATE.RUN;
         }
         else
@@ -162,6 +186,11 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
+        if (attackDelay > 0)
+        {
+            attackDelay -= Time.deltaTime;
+        }
+
         rootNode.Evaluate();
     }
 }
