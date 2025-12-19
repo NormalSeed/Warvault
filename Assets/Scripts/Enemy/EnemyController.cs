@@ -158,6 +158,9 @@ public class EnemyController : MonoBehaviour
     INode.STATE IdleAction()
     {
         Debug.Log("대기 중");
+
+        animator.Play(idle);
+
         return INode.STATE.RUN;
     }
 
