@@ -21,7 +21,7 @@ public class PooledObject : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void OnEnable()
+    void OnEnable()
     {
         OnSpawn();
     }

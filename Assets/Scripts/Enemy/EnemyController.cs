@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : PooledObject
 {
     SelectorNode rootNode;      // 루트 노드
     SequenceNode attackSeq;     // 공격 시퀀스
     SequenceNode detectSeq;     // 탐지 시퀀스
+    SequenceNode deadSeq;       // 사망 시퀀스
     ActionNode idleAction;      // 대기 액션
     ActionNode returnAction;    // 귀환 액션
 
@@ -17,6 +19,11 @@ public class EnemyController : MonoBehaviour
     [SerializeField] Transform firePoint1;
     [SerializeField] Transform firePoint2;
     bool isAttack1 = true;
+
+    public bool isDead = false;
+    float deadTimer = 1.5f;
+    bool isDeadAniPlayed = false;
+    bool isAttackable = true;
 
     Animator animator;
     readonly int idle = Animator.StringToHash("Idle");
@@ -39,15 +46,24 @@ public class EnemyController : MonoBehaviour
         // 노드 생성
         CreateAttackSeq();
         CreateDetectSeq();
+        CreateDeadSeq();
         returnAction = new ActionNode(ReturnAction);
         idleAction = new ActionNode(IdleAction);
 
         // 노드 등록
         rootNode = new SelectorNode();
+        rootNode.Add(deadSeq);
         rootNode.Add(attackSeq);
         rootNode.Add(detectSeq);
         rootNode.Add(returnAction);
         rootNode.Add(idleAction);
+    }
+
+    void OnEnable()
+    {
+        isDead = false;
+        isDeadAniPlayed = false;
+        isAttackable = true;
     }
 
     #region Attack Sequence
@@ -187,6 +203,47 @@ public class EnemyController : MonoBehaviour
             return INode.STATE.SUCCESS;
     }
 
+    #region Dead Sequence
+    void CreateDeadSeq()
+    {
+        deadSeq = new SequenceNode();
+        deadSeq.Add(new ActionNode(CheckDead));
+        deadSeq.Add(new ActionNode(PlayDeadAnimation));
+        deadSeq.Add(new ActionNode(ReturnToPool));
+    }
+
+    INode.STATE CheckDead()
+    {
+        return isDead ? INode.STATE.SUCCESS : INode.STATE.FAILED;
+    }
+
+    INode.STATE PlayDeadAnimation()
+    {
+        if (!isDeadAniPlayed)
+        {
+            animator.Play(dead);
+            isAttackable = false;
+            isDeadAniPlayed = true;
+            deadTimer = 1.5f;
+        }
+
+        if (deadTimer > 0f)
+        {
+            deadTimer -= Time.deltaTime;
+            return INode.STATE.RUN;
+        }
+
+        return INode.STATE.SUCCESS;
+    }
+
+    INode.STATE ReturnToPool()
+    {
+        ReturnPool();
+        OnDespawn();
+        return INode.STATE.SUCCESS;
+    }
+    #endregion
+
     void Update()
     {
         if (attackDelay > 0)
@@ -195,5 +252,16 @@ public class EnemyController : MonoBehaviour
         }
 
         rootNode.Evaluate();
+
+        // 테스트용 적 처치
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            isDead = true;
+        }
+    }
+
+    public override void OnDespawn()
+    {
+        SpawnManager.Instance.DecreaseCount();
     }
 }
