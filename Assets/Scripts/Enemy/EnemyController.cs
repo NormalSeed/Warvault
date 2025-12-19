@@ -33,12 +33,13 @@ public class EnemyController : PooledObject
     readonly int dead = Animator.StringToHash("Dead");
     bool isShootA = true;
 
-    void Start()
+    void Awake()
     {
         animator = GetComponent<Animator>();
+    }
 
-        originPos = transform.position;
-
+    void Start()
+    {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
             target = player.transform;
@@ -57,13 +58,6 @@ public class EnemyController : PooledObject
         rootNode.Add(detectSeq);
         rootNode.Add(returnAction);
         rootNode.Add(idleAction);
-    }
-
-    void OnEnable()
-    {
-        isDead = false;
-        isDeadAniPlayed = false;
-        isAttackable = true;
     }
 
     #region Attack Sequence
@@ -260,8 +254,19 @@ public class EnemyController : PooledObject
         }
     }
 
+    public override void OnSpawn()
+    {
+        isDead = false;
+        isDeadAniPlayed = false;
+        isAttackable = true;
+        animator.enabled = true;
+
+        originPos = transform.position;
+    }
+
     public override void OnDespawn()
     {
+        animator.enabled = false;
         SpawnManager.Instance.DecreaseCount();
     }
 }
