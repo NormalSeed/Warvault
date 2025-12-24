@@ -1,5 +1,8 @@
 ﻿using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.InputSystem.Android;
 
 public class EnemyController : PooledObject
 {
@@ -26,6 +29,8 @@ public class EnemyController : PooledObject
     bool isAttackable = true;
 
     Animator animator;
+    NavMeshAgent agent;
+
     readonly int idle = Animator.StringToHash("Idle");
     readonly int walk = Animator.StringToHash("Walk");
     readonly int shootA = Animator.StringToHash("ShootA");
@@ -36,6 +41,7 @@ public class EnemyController : PooledObject
     void Awake()
     {
         animator = GetComponent<Animator>();
+        agent = GetComponent<NavMeshAgent>();
     }
 
     void Start()
@@ -88,6 +94,8 @@ public class EnemyController : PooledObject
     INode.STATE Attack()
     {
         Debug.Log("공격 중");
+
+        agent.isStopped = true;
 
         // 공격 애니메이션
         if (isShootA)
@@ -147,16 +155,20 @@ public class EnemyController : PooledObject
     {
         if (Vector3.Distance(transform.position, target.position) > AttackRange)
         {
-            // y축을 무시한 수평 방향 벡터 계산
-            Vector3 targetPos = new Vector3(target.position.x, transform.position.y, target.position.z);
-            Vector3 dir = (targetPos - transform.position).normalized;
+            //// y축을 무시한 수평 방향 벡터 계산, NavMesh Agent 사용 이전 이동 로직
+            //Vector3 targetPos = new Vector3(target.position.x, transform.position.y, target.position.z);
+            //Vector3 dir = (targetPos - transform.position).normalized;
 
-            Quaternion targetRotation = Quaternion.LookRotation(dir);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+            //Quaternion targetRotation = Quaternion.LookRotation(dir);
+            //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
 
-            transform.Translate(Vector3.forward * Time.deltaTime, Space.Self);
+            //transform.Translate(Vector3.forward * Time.deltaTime, Space.Self);
 
-            animator.Play(walk);
+            agent.isStopped = false;
+            agent.SetDestination(target.position);
+
+            if (agent.velocity.magnitude > 0.1f)
+                animator.Play(walk);
 
             return INode.STATE.RUN;
         }
@@ -169,6 +181,7 @@ public class EnemyController : PooledObject
     {
         Debug.Log("대기 중");
 
+        agent.isStopped = true;
         animator.Play(idle);
 
         return INode.STATE.RUN;
@@ -180,16 +193,22 @@ public class EnemyController : PooledObject
         {
             Debug.Log("복귀 중");
 
-            // y축을 무시한 수평 방향 벡터 계산
-            Vector3 originFlat = new Vector3(originPos.x, transform.position.y, originPos.z);
-            Vector3 dir = (originFlat - transform.position).normalized;
+            //// y축을 무시한 수평 방향 벡터 계산, NavMesh Agent 도입 이전 이동 로직
+            //Vector3 originFlat = new Vector3(originPos.x, transform.position.y, originPos.z);
+            //Vector3 dir = (originFlat - transform.position).normalized;
 
-            Quaternion targetRotation = Quaternion.LookRotation(dir);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+            //Quaternion targetRotation = Quaternion.LookRotation(dir);
+            //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
 
-            transform.Translate(Vector3.forward * Time.deltaTime, Space.Self);
+            //transform.Translate(Vector3.forward * Time.deltaTime, Space.Self);
 
-            animator.Play(walk);
+            //animator.Play(walk);
+
+            agent.isStopped = false;
+            agent.SetDestination(originPos);
+
+            if (agent.velocity.magnitude > 0.1f)
+                animator.Play(walk);
 
             return INode.STATE.RUN;
         }
@@ -219,6 +238,7 @@ public class EnemyController : PooledObject
             isAttackable = false;
             isDeadAniPlayed = true;
             deadTimer = 1.5f;
+            agent.isStopped = true;
         }
 
         if (deadTimer > 0f)
@@ -260,6 +280,9 @@ public class EnemyController : PooledObject
         isDeadAniPlayed = false;
         isAttackable = true;
         animator.enabled = true;
+        agent.isStopped = false;
+        agent.speed = 1f;
+        agent.angularSpeed = 300f;
 
         originPos = transform.position;
     }
@@ -267,6 +290,7 @@ public class EnemyController : PooledObject
     public override void OnDespawn()
     {
         animator.enabled = false;
+        agent.isStopped = true;
         SpawnManager.Instance.DecreaseCount();
     }
 }
