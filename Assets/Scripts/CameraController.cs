@@ -93,29 +93,15 @@ public class CameraController : MonoBehaviour
         Cursor.visible = true;
     }
 
-    void OpenMenu()
-    {
-        isMenuOpen.Value = true;
-        UnlockCursor();
-        // UI 매니저에서 메뉴 패널 활성화
-    }
-
-    void CloseMenu()
-    {
-        isMenuOpen.Value = false;
-        LockCursor();
-        // UI 매니저에서 메뉴 패널 비활성화
-    }
-
     void OnMenuOpenChanged(bool isOpened)
     {
         if (isOpened == true)
         {
-            LockCursor();
+            UnlockCursor();
         }
         else
         {
-            UnlockCursor();
+            LockCursor();
         }
     }
 }

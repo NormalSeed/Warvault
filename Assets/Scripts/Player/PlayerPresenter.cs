@@ -14,6 +14,8 @@ public class PlayerPresenter : MonoBehaviour
     public Transform cameraTarget;
     [SerializeField] Transform firePoint;
 
+    bool canControll = true;
+
     void Awake()
     {
         model = new PlayerModel();
@@ -31,19 +33,27 @@ public class PlayerPresenter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HandleMovement();
-        HandleAnimation();
-
-        // 테스트용 총알 발사 로직
-        if (Input.GetMouseButtonDown(0))
+        if (canControll)
         {
-            PoolManager.Instance.SpawnFromPool("TestBullet", firePoint.position, firePoint.rotation);
+            HandleMovement();
+            HandleAnimation();
+
+            // 테스트용 총알 발사 로직
+            if (Input.GetMouseButtonDown(0))
+            {
+                PoolManager.Instance.SpawnFromPool("TestBullet", firePoint.position, firePoint.rotation);
+            }
+
+            // 테스트용 TakeDamage
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                TakeDamage(10f);
+            }
         }
 
-        // 테스트용 TakeDamage
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            TakeDamage(10f);
+            canControll = !canControll;
         }
     }
 

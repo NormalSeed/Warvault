@@ -1,18 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField] GameObject menuUI;
+
+    public ObservableProperty<bool> isMenuOpen = new();
+
     void Start()
     {
-        
+        menuUI.SetActive(false);
+        isMenuOpen.Value = false;
+        isMenuOpen.Subscribe(OnMenuOpened);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            isMenuOpen.Value = !isMenuOpen.Value;
+        }
+    }
+
+    void OnMenuOpened(bool isOpened)
+    {
+        menuUI.SetActive(isOpened);
     }
 }
