@@ -27,17 +27,17 @@ public class CameraController : MonoBehaviour
         cameraTarget.rotation = Quaternion.Euler(xRotation, yRotation, 0f);
 
         isMenuOpen.Value = false;
+        isMenuOpen.Subscribe(OnMenuOpenChanged);
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (!isMenuOpen.Value) OpenMenu();
-            else CloseMenu();
+            isMenuOpen.Value = !isMenuOpen.Value;
         }
 
-        if (!isMenuOpen.Value)
+        if (isMenuOpen.Value == false)
         {
             if (Input.GetMouseButtonDown(1)) // 우클릭 누름
             {
@@ -105,5 +105,17 @@ public class CameraController : MonoBehaviour
         isMenuOpen.Value = false;
         LockCursor();
         // UI 매니저에서 메뉴 패널 비활성화
+    }
+
+    void OnMenuOpenChanged(bool isOpened)
+    {
+        if (isOpened == true)
+        {
+            LockCursor();
+        }
+        else
+        {
+            UnlockCursor();
+        }
     }
 }
