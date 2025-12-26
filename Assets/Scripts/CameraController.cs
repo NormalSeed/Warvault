@@ -16,7 +16,6 @@ public class CameraController : MonoBehaviour
     [SerializeField] float yRotation = 0f;
 
     bool isAiming = false;
-    public ObservableProperty<bool> isMenuOpen { get; private set; } = new();
 
     void Start()
     {
@@ -26,18 +25,12 @@ public class CameraController : MonoBehaviour
         yRotation = 0f;
         cameraTarget.rotation = Quaternion.Euler(xRotation, yRotation, 0f);
 
-        isMenuOpen.Value = false;
-        isMenuOpen.Subscribe(OnMenuOpenChanged);
+        UIManager.Instance.isMenuOpen.Subscribe(OnMenuOpenChanged);
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            isMenuOpen.Value = !isMenuOpen.Value;
-        }
-
-        if (isMenuOpen.Value == false)
+        if (UIManager.Instance.isMenuOpen.Value == false)
         {
             if (Input.GetMouseButtonDown(1)) // 우클릭 누름
             {

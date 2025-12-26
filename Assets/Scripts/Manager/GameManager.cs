@@ -4,8 +4,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public bool isMenuOpen = false;
-
     void Awake()
     {
         if (Instance != null)
@@ -16,19 +14,19 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
-    void Update()
+    void Start()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            PauseControll();
-        }
+        UIManager.Instance.isMenuOpen.Subscribe(PauseControll);
     }
 
-    void PauseControll()
+    void Update()
     {
-        isMenuOpen = !isMenuOpen;
 
-        if (isMenuOpen)
+    }
+
+    void PauseControll(bool isOpened)
+    {
+        if (isOpened)
         {
             Time.timeScale = 0f;
         }
