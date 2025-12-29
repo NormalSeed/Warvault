@@ -6,6 +6,8 @@ using UnityEngine.InputSystem.Android;
 
 public class EnemyController : PooledObject
 {
+    EnemyModel model;
+
     SelectorNode rootNode;      // 루트 노드
     SequenceNode attackSeq;     // 공격 시퀀스
     SequenceNode detectSeq;     // 탐지 시퀀스
@@ -42,6 +44,7 @@ public class EnemyController : PooledObject
     {
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
+        model = GetComponent<EnemyModel>();
     }
 
     void Start()
@@ -155,15 +158,6 @@ public class EnemyController : PooledObject
     {
         if (Vector3.Distance(transform.position, target.position) > AttackRange)
         {
-            //// y축을 무시한 수평 방향 벡터 계산, NavMesh Agent 사용 이전 이동 로직
-            //Vector3 targetPos = new Vector3(target.position.x, transform.position.y, target.position.z);
-            //Vector3 dir = (targetPos - transform.position).normalized;
-
-            //Quaternion targetRotation = Quaternion.LookRotation(dir);
-            //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
-
-            //transform.Translate(Vector3.forward * Time.deltaTime, Space.Self);
-
             agent.isStopped = false;
             agent.SetDestination(target.position);
 
@@ -192,17 +186,6 @@ public class EnemyController : PooledObject
         if (Vector3.Distance(transform.position, originPos) >= 0.1f)
         {
             Debug.Log("복귀 중");
-
-            //// y축을 무시한 수평 방향 벡터 계산, NavMesh Agent 도입 이전 이동 로직
-            //Vector3 originFlat = new Vector3(originPos.x, transform.position.y, originPos.z);
-            //Vector3 dir = (originFlat - transform.position).normalized;
-
-            //Quaternion targetRotation = Quaternion.LookRotation(dir);
-            //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
-
-            //transform.Translate(Vector3.forward * Time.deltaTime, Space.Self);
-
-            //animator.Play(walk);
 
             agent.isStopped = false;
             agent.SetDestination(originPos);
@@ -266,12 +249,6 @@ public class EnemyController : PooledObject
         }
 
         rootNode.Evaluate();
-
-        // 테스트용 적 처치
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            isDead = true;
-        }
     }
 
     public override void OnSpawn()
@@ -285,6 +262,8 @@ public class EnemyController : PooledObject
         agent.angularSpeed = 300f;
 
         originPos = transform.position;
+
+        model.CurHp.Value = model.Hp;
     }
 
     public override void OnDespawn()
@@ -292,5 +271,19 @@ public class EnemyController : PooledObject
         animator.enabled = false;
         agent.isStopped = true;
         SpawnManager.Instance.DecreaseCount();
+    }
+
+    public void TakeDamage(int amount)
+    {
+        model.CurHp.Value = Mathf.Max(model.CurHp.Value - amount, 0);
+        if (model.CurHp.Value == 0)
+        {
+            Dead();
+        }
+    }
+
+    void Dead()
+    {
+        isDead = true;
     }
 }

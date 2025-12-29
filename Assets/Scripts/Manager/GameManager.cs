@@ -4,6 +4,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    int score;
+
+
     void Awake()
     {
         if (Instance != null)
