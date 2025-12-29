@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.InputSystem.Android;
 
 public class EnemyController : PooledObject
 {
@@ -284,6 +281,8 @@ public class EnemyController : PooledObject
 
     public void TakeDamage(int amount)
     {
+        if (isDead) return;
+
         model.CurHp.Value = Mathf.Max(model.CurHp.Value - amount, 0);
         if (model.CurHp.Value == 0)
         {
@@ -302,5 +301,6 @@ public class EnemyController : PooledObject
     {
         isDead = true;
         GameManager.Instance.AddScore(model.Score);
+        Debug.Log($"현재 점수 : {GameManager.Instance.score}");
     }
 }

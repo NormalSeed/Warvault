@@ -4,7 +4,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    int score;
+    public int score;
 
 
     void Awake()
@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         UIManager.Instance.isMenuOpen.Subscribe(PauseControll);
+        score = 0;
     }
 
     void Update()
