@@ -7,6 +7,7 @@ using UnityEngine.InputSystem.Android;
 public class EnemyController : PooledObject
 {
     EnemyModel model;
+    EnemyView view;
 
     SelectorNode rootNode;      // 루트 노드
     SequenceNode attackSeq;     // 공격 시퀀스
@@ -45,6 +46,7 @@ public class EnemyController : PooledObject
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         model = GetComponent<EnemyModel>();
+        view = GetComponent<EnemyView>();
     }
 
     void Start()
@@ -67,6 +69,8 @@ public class EnemyController : PooledObject
         rootNode.Add(detectSeq);
         rootNode.Add(returnAction);
         rootNode.Add(idleAction);
+
+        model.CurHp.Subscribe(OnHpChanged);
     }
 
     #region Attack Sequence
@@ -251,6 +255,11 @@ public class EnemyController : PooledObject
         rootNode.Evaluate();
     }
 
+    void LateUpdate()
+    {
+        view.HpBarLookAtTarget(target);
+    }
+
     public override void OnSpawn()
     {
         isDead = false;
@@ -280,6 +289,13 @@ public class EnemyController : PooledObject
         {
             Dead();
         }
+    }
+
+    void OnHpChanged(int newHp)
+    {
+        float normalizedHp = (float)newHp / model.Hp;
+        view.SetEnemyHpBar(normalizedHp);
+        Debug.Log($"현재 HP : {newHp}\n현재 HP 비율 : {normalizedHp}");
     }
 
     void Dead()
