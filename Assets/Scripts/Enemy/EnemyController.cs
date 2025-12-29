@@ -301,6 +301,6 @@ public class EnemyController : PooledObject
     {
         isDead = true;
         GameManager.Instance.AddScore(model.Score);
-        Debug.Log($"현재 점수 : {GameManager.Instance.score}");
+        Debug.Log($"현재 점수 : {GameManager.Instance.score.Value}");
     }
 }

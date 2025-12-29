@@ -4,7 +4,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public int score;
+    public ObservableProperty<int> score = new();
 
 
     void Awake()
@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         UIManager.Instance.isMenuOpen.Subscribe(PauseControll);
-        score = 0;
+        score.Value = 0;
     }
 
     void Update()
@@ -42,6 +42,6 @@ public class GameManager : MonoBehaviour
 
     public void AddScore(int amount)
     {
-        score += amount;
+        score.Value += amount;
     }
 }
