@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 4355723732284711140}
   - component: {fileID: 4433974752204748898}
   - component: {fileID: 6233600416373196800}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TestBullet
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -121,6 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifeTime: 2
+  damage: 10
 --- !u!54 &4433974752204748898
 Rigidbody:
   m_ObjectHideFlags: 0

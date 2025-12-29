@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerPresenter : MonoBehaviour
@@ -16,6 +15,10 @@ public class PlayerPresenter : MonoBehaviour
 
     bool canControll = true;
 
+    [SerializeField] List<Weapon> weapons = new();
+    [SerializeField] Weapon curWeapon;
+    int curWeaponIndex = 0;
+
     void Awake()
     {
         model = new PlayerModel();
@@ -23,14 +26,18 @@ public class PlayerPresenter : MonoBehaviour
         controller = GetComponent<CharacterController>();
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         model.CurHp.Value = model.Hp;
         model.CurHp.Subscribe(OnHpChanged);
+
+        if (weapons.Count > 0)
+        {
+            curWeaponIndex = 0;
+            curWeapon = weapons[curWeaponIndex];
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (canControll)
@@ -38,10 +45,15 @@ public class PlayerPresenter : MonoBehaviour
             HandleMovement();
             HandleAnimation();
 
-            // 테스트용 총알 발사 로직
+            // 총알 발사 로직
             if (Input.GetMouseButtonDown(0))
             {
-                PoolManager.Instance.SpawnFromPool("TestBullet", firePoint.position, firePoint.rotation);
+                curWeapon.Fire(firePoint);
+            }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                ChangeWeapon();
             }
 
             // 테스트용 TakeDamage
@@ -152,5 +164,15 @@ public class PlayerPresenter : MonoBehaviour
         float normalizedHp = newHp / model.Hp;
         view.SetHpBar(normalizedHp);
         Debug.Log($"현재 HP : {newHp}\n현재 HP 비율 : {normalizedHp}");
+    }
+
+    void ChangeWeapon()
+    {
+        if (weapons.Count == 0) return;
+
+        curWeaponIndex = (curWeaponIndex + 1) % weapons.Count;
+        curWeapon = weapons[curWeaponIndex];
+
+        Debug.Log($"무기 교체: {curWeapon.name}");
     }
 }
