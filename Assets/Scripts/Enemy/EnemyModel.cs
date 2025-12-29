@@ -10,7 +10,7 @@ public class EnemyModel : MonoBehaviour
 
     void Awake()
     {
-        Hp = 500;
+        Hp = 100;
         Score = 100;
     }
 }

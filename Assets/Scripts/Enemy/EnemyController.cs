@@ -285,5 +285,6 @@ public class EnemyController : PooledObject
     void Dead()
     {
         isDead = true;
+        GameManager.Instance.AddScore(model.Score);
     }
 }

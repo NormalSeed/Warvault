@@ -38,4 +38,9 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1.0f;
         }
     }
+
+    public void AddScore(int amount)
+    {
+        score += amount;
+    }
 }
