@@ -44,6 +44,8 @@ public class EnemyController : PooledObject
         agent = GetComponent<NavMeshAgent>();
         model = GetComponent<EnemyModel>();
         view = GetComponent<EnemyView>();
+
+        animator.applyRootMotion = false;
     }
 
     void Start()
