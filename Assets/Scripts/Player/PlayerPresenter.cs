@@ -46,8 +46,9 @@ public class PlayerPresenter : MonoBehaviour
             HandleAnimation();
 
             // 총알 발사 로직
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && curWeapon.fireDelay <= 0)
             {
+                view.PlayAttackAnimation();
                 curWeapon.Fire(firePoint);
             }
 
@@ -73,13 +74,16 @@ public class PlayerPresenter : MonoBehaviour
     public void HandleMovement()
     {
         Move();
-        Rotate();
+        //Rotate();
     }
 
     void Move()
     {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
+
+        view.Animator.SetFloat("X", h);
+        view.Animator.SetFloat("Y", v);
 
         Vector3 inputDir = new Vector3(h, 0, v);
 
@@ -116,7 +120,21 @@ public class PlayerPresenter : MonoBehaviour
 
         // 점프 처리
         if (controller.isGrounded && Input.GetButtonDown("Jump"))
+        {
             model.Velocity.y = Mathf.Sqrt(model.JumpHeight * -2f * model.Gravity);
+            view.PlayJumpAnimation();
+        }
+
+        // 회전 처리
+        if (camForward.sqrMagnitude > 0.01f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(camForward);
+            playerOutlook.rotation = Quaternion.Slerp(
+                playerOutlook.rotation,
+                targetRotation,
+                10f * Time.deltaTime
+            );
+        }
     }
 
     void Rotate()
@@ -148,9 +166,10 @@ public class PlayerPresenter : MonoBehaviour
 
     public void HandleAnimation()
     {
-        view.Animator.SetFloat("Speed", currentSpeed);
-        if (controller.isGrounded && Input.GetButtonDown("Jump"))
-            view.Animator.SetTrigger("Jump");
+        if (currentSpeed == 0f)
+            view.PlayIdleAnimation();
+        else if (currentSpeed > 0f)
+            view.PlayMoveAnimation(currentSpeed);
     }
 
     public void TakeDamage(float damage)

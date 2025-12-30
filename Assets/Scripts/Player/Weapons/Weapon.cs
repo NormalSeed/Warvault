@@ -4,7 +4,7 @@ public abstract class Weapon : MonoBehaviour
 {
     [SerializeField] public Transform firePoint;
     [SerializeField] protected float fireRate = 0.2f;
-    protected float fireDelay;
+    public float fireDelay;
 
     protected virtual void Update()
     {
