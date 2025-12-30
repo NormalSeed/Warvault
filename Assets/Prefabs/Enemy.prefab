@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 5186005235947461241}
   m_Layer: 6
   m_Name: FirePoint2
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 5858644080205636919}
   m_Layer: 5
   m_Name: HpBarCanvas
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 7476239767072424487}
   m_Layer: 5
   m_Name: HpBar
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -331,7 +331,7 @@ GameObject:
   - component: {fileID: 6478759161054884899}
   m_Layer: 6
   m_Name: FirePoint1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -788,6 +788,58 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3000557631506514887}
     m_Modifications:
+    - target: {fileID: 731184229689461437, guid: 5aacff0177ac1584c877e294368ae60f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 731184229689461437, guid: 5aacff0177ac1584c877e294368ae60f, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 926718738998695498, guid: 5aacff0177ac1584c877e294368ae60f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2373103247109941490, guid: 5aacff0177ac1584c877e294368ae60f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3985837665248052610, guid: 5aacff0177ac1584c877e294368ae60f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3992705722466398226, guid: 5aacff0177ac1584c877e294368ae60f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4114134250691428731, guid: 5aacff0177ac1584c877e294368ae60f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4114134250691428731, guid: 5aacff0177ac1584c877e294368ae60f, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 4125216239759240710, guid: 5aacff0177ac1584c877e294368ae60f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4331354888812926774, guid: 5aacff0177ac1584c877e294368ae60f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4608430644861733788, guid: 5aacff0177ac1584c877e294368ae60f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947222618221787932, guid: 5aacff0177ac1584c877e294368ae60f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4982245100485625370, guid: 5aacff0177ac1584c877e294368ae60f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4996733215912554206, guid: 5aacff0177ac1584c877e294368ae60f, type: 3}
       propertyPath: m_LocalScale.x
       value: 2.5
@@ -840,9 +892,45 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5253790007489794499, guid: 5aacff0177ac1584c877e294368ae60f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5514639100963609960, guid: 5aacff0177ac1584c877e294368ae60f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 5628416301743256676, guid: 5aacff0177ac1584c877e294368ae60f, type: 3}
       propertyPath: m_Name
       value: Volepik
+      objectReference: {fileID: 0}
+    - target: {fileID: 5628416301743256676, guid: 5aacff0177ac1584c877e294368ae60f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5628416301743256676, guid: 5aacff0177ac1584c877e294368ae60f, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793350099227901276, guid: 5aacff0177ac1584c877e294368ae60f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7852019872696031693, guid: 5aacff0177ac1584c877e294368ae60f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7922962087217030092, guid: 5aacff0177ac1584c877e294368ae60f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8011988617324019978, guid: 5aacff0177ac1584c877e294368ae60f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9220341026384861028, guid: 5aacff0177ac1584c877e294368ae60f, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1420844684130989220, guid: 5aacff0177ac1584c877e294368ae60f, type: 3}

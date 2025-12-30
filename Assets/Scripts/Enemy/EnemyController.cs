@@ -44,8 +44,6 @@ public class EnemyController : PooledObject
         agent = GetComponent<NavMeshAgent>();
         model = GetComponent<EnemyModel>();
         view = GetComponent<EnemyView>();
-
-        animator.applyRootMotion = false;
     }
 
     void Start()
@@ -103,28 +101,18 @@ public class EnemyController : PooledObject
 
         agent.isStopped = true;
 
-        // 공격 애니메이션
-        if (isShootA)
-        {
-            animator.Play(shootA);
-            isShootA = false;
-        }
-        else
-        {
-            animator.Play(shootB);
-            isShootA = true;
-        }
-
         // 공격 로직
         if (attackDelay <= 0f)
         {
             if (isAttack1)
             {
                 PoolManager.Instance.SpawnFromPool("TestEnemyBullet1", firePoint1.position, firePoint1.rotation);
+                animator.Play(shootA);
             }
             else
             {
                 PoolManager.Instance.SpawnFromPool("TestEnemyBullet2", firePoint2.position, firePoint2.rotation);
+                animator.Play(shootB);
             }
 
             isAttack1 = !isAttack1;
