@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -8,6 +9,7 @@ public class MenuUI : MonoBehaviour
     [SerializeField] Button restartButton;
     [SerializeField] Button endButton;
     [SerializeField] Button closeButton;
+    [SerializeField] Button voiceSelectButton;
 
     void Start()
     {
@@ -15,6 +17,12 @@ public class MenuUI : MonoBehaviour
         restartButton.onClick.AddListener(OnRestartButtonClicked);
         endButton.onClick.AddListener(OnEndButtonClicked);
         closeButton.onClick.AddListener(OnCloseButtonClicked);
+        voiceSelectButton.onClick.AddListener(OnVoiceSelectButtonClicked);
+    }
+
+    void Update()
+    {
+        
     }
 
     void OnContinueButtonClicked()
@@ -24,6 +32,8 @@ public class MenuUI : MonoBehaviour
 
     void OnRestartButtonClicked()
     {
+        GameManager.Instance.PlayDefeatVoice();
+
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
         UIManager.Instance.isMenuOpen.Value = false;
@@ -41,5 +51,18 @@ public class MenuUI : MonoBehaviour
     void OnCloseButtonClicked()
     {
         UIManager.Instance.isMenuOpen.Value = false;
+    }
+
+    void OnVoiceSelectButtonClicked()
+    {
+        if (GameManager.Instance.currentSetIndex == 0)
+        {
+            GameManager.Instance.SelectVoiceSet(1);
+        }
+        else
+        {
+            GameManager.Instance.SelectVoiceSet(0);
+        }
+        
     }
 }

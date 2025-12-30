@@ -49,6 +49,7 @@ public class PlayerPresenter : MonoBehaviour
             if (Input.GetMouseButtonDown(0) && curWeapon.fireDelay <= 0)
             {
                 view.PlayAttackAnimation();
+                SoundManager.Instance.PlaySfx(SoundManager.SFX.PlayerGun);
                 curWeapon.Fire(firePoint);
             }
 

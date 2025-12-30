@@ -28,22 +28,16 @@ public class PlayerView : MonoBehaviour
     public void PlayMoveAnimation(float speed)
     {
         Animator.SetFloat("Speed", speed);
-        if (Actions != null)
-            Actions.Run();
     }
 
     public void PlayJumpAnimation()
     {
         Animator.SetBool("IsJump", true);
-        if (Actions != null)
-            Actions.Jump();
     }
 
     public void PlayAttackAnimation()
     {
         Animator.SetTrigger("Attack");
-        if (Actions != null)
-            Actions.Attack();
     }
 
     public void SetHpBar(float normalizedHp)
