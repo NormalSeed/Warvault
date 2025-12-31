@@ -33,14 +33,18 @@ public class PlayerPresenter : MonoBehaviour
     {
         model.CurHp.Value = model.Hp;
         model.CurHp.Subscribe(OnHpChanged);
-        isDead = false;
-        deadDuration = 1f;
 
         if (weapons.Count > 0)
         {
             curWeaponIndex = 0;
             curWeapon = weapons[curWeaponIndex];
         }
+    }
+    void OnEnable()
+    {
+        isDead = false;
+        deadDuration = 1f;
+        canControll = true;
     }
 
     void Update()

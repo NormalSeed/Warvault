@@ -14,6 +14,7 @@ public class EnemyController : PooledObject
     ActionNode returnAction;    // 귀환 액션
 
     [SerializeField] Transform target;
+    Vector3 targetOffset = new Vector3(0, 0.5f, 0);
     public int DetectRange;
     public int AttackRange;
     Vector3 originPos;
@@ -253,8 +254,8 @@ public class EnemyController : PooledObject
         if (target != null)
         {
             // 총구 방향
-            firePoint1.LookAt(target.position);
-            firePoint2.LookAt(target.position);
+            firePoint1.LookAt(target.position + targetOffset);
+            firePoint2.LookAt(target.position + targetOffset);
         }
     }
 

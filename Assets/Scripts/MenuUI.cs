@@ -34,9 +34,9 @@ public class MenuUI : MonoBehaviour
     {
         GameManager.Instance.PlayDefeatVoice();
 
+        UIManager.Instance.isMenuOpen.Value = false;
         Scene currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);
-        UIManager.Instance.isMenuOpen.Value = false;
     }
 
     void OnEndButtonClicked()
