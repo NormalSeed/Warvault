@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6558455399636016597
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3523393580142757131}
+  - component: {fileID: 7292261430649395940}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3523393580142757131
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6558455399636016597}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.15342459, y: 1.3912015, z: 1.5396796}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7292261430649395940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6558455399636016597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1f4b6cddc36fd14bba4969634d6b18f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BGMClip: {fileID: 8300000, guid: 7639bc2037ed1ec41be8d1030ac6a11a, type: 3}
+  bgmVolume: 1
+  sfxClips:
+  - {fileID: 8300000, guid: 2742626cea378a5428451192f08243ff, type: 3}
+  - {fileID: 8300000, guid: 53b1f1015d8b1f841ad00f9f5d965c9c, type: 3}
+  - {fileID: 8300000, guid: 4bea99e2fab911e4abd6a9372f9e40c4, type: 3}
+  - {fileID: 8300000, guid: c275c33ce41a22b408763d466ab1c1b8, type: 3}
+  - {fileID: 8300000, guid: d429ffe0b41cfcf4fa1bd0d3b4782485, type: 3}
+  - {fileID: 8300000, guid: 3a3170f90d887fb44bfbdf83c51fd2f1, type: 3}
+  - {fileID: 8300000, guid: bba190ba3fbed164b8eeab80f30d447f, type: 3}
+  - {fileID: 8300000, guid: 723b05ee240161f45a3856affd23070e, type: 3}
+  - {fileID: 8300000, guid: 2d73a73a1894a1b45af9306b3b580176, type: 3}
+  sfxVolume: 1
+  channels: 20

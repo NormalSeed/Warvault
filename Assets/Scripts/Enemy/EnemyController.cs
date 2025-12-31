@@ -13,7 +13,7 @@ public class EnemyController : PooledObject
     ActionNode idleAction;      // 대기 액션
     ActionNode returnAction;    // 귀환 액션
 
-    Transform target;
+    [SerializeField] Transform target;
     public int DetectRange;
     public int AttackRange;
     Vector3 originPos;
@@ -80,8 +80,12 @@ public class EnemyController : PooledObject
 
     INode.STATE CheckInAttackRange()
     {
-        // 타겟이 없으면 실패 반환
+        // 타겟이 없거나 죽었으면 실패 반환
         if (target == null)
+            return INode.STATE.FAILED;
+
+        PlayerPresenter player = target.gameObject.GetComponent<PlayerPresenter>();
+        if (player == null || player.isDead)
             return INode.STATE.FAILED;
 
         // 타겟과 자신의 거리가 공격 사거리보다 작으면 성공 반환
@@ -245,6 +249,13 @@ public class EnemyController : PooledObject
     void LateUpdate()
     {
         view.HpBarLookAtTarget(target);
+
+        if (target != null)
+        {
+            // 총구 방향
+            firePoint1.LookAt(target.position);
+            firePoint2.LookAt(target.position);
+        }
     }
 
     public override void OnSpawn()

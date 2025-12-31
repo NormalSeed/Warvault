@@ -19,6 +19,9 @@ public class PlayerPresenter : MonoBehaviour
     [SerializeField] Weapon curWeapon;
     int curWeaponIndex = 0;
 
+    public bool isDead = false;
+    float deadDuration;
+
     void Awake()
     {
         model = new PlayerModel();
@@ -30,6 +33,8 @@ public class PlayerPresenter : MonoBehaviour
     {
         model.CurHp.Value = model.Hp;
         model.CurHp.Subscribe(OnHpChanged);
+        isDead = false;
+        deadDuration = 1f;
 
         if (weapons.Count > 0)
         {
@@ -58,16 +63,26 @@ public class PlayerPresenter : MonoBehaviour
                 ChangeWeapon();
             }
 
-            // 테스트용 TakeDamage
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                TakeDamage(10f);
-            }
+            //// 테스트용 TakeDamage
+            //if (Input.GetKeyDown(KeyCode.Alpha1))
+            //{
+            //    TakeDamage(10f);
+            //}
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             canControll = !canControll;
+        }
+
+        if (isDead && deadDuration > 0)
+        {
+            deadDuration -= Time.deltaTime;
+        }
+
+        if (deadDuration <= 0)
+        {
+            UIManager.Instance.isMenuOpen.Value = true;
         }
     }
 
@@ -173,19 +188,6 @@ public class PlayerPresenter : MonoBehaviour
             view.PlayMoveAnimation(currentSpeed);
     }
 
-    public void TakeDamage(float damage)
-    {
-        model.CurHp.Value = Mathf.Max(model.CurHp.Value - damage, 0);
-    }
-
-    // ObservableProperty 구독 메서드
-    void OnHpChanged(float newHp)
-    {
-        float normalizedHp = newHp / model.Hp;
-        view.SetHpBar(normalizedHp);
-        Debug.Log($"현재 HP : {newHp}\n현재 HP 비율 : {normalizedHp}");
-    }
-
     void ChangeWeapon()
     {
         if (weapons.Count == 0) return;
@@ -194,5 +196,32 @@ public class PlayerPresenter : MonoBehaviour
         curWeapon = weapons[curWeaponIndex];
 
         Debug.Log($"무기 교체: {curWeapon.name}");
+    }
+
+    public void TakeDamage(float damage)
+    {
+        if (isDead) return;
+
+        model.CurHp.Value = Mathf.Max(model.CurHp.Value - damage, 0);
+
+        if (model.CurHp.Value == 0)
+        {
+            Dead();
+            GameManager.Instance.PlayDefeatVoice();
+        }
+    }
+
+    void Dead()
+    {
+        isDead = true;
+        view.PlayDeadAnimation();
+    }
+
+    // ObservableProperty 구독 메서드
+    void OnHpChanged(float newHp)
+    {
+        float normalizedHp = newHp / model.Hp;
+        view.SetHpBar(normalizedHp);
+        Debug.Log($"현재 HP : {newHp}\n현재 HP 비율 : {normalizedHp}");
     }
 }

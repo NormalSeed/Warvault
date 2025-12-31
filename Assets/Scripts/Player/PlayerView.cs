@@ -40,6 +40,11 @@ public class PlayerView : MonoBehaviour
         Animator.SetTrigger("Attack");
     }
 
+    public void PlayDeadAnimation()
+    {
+        Animator.SetTrigger("Dead");
+    }
+
     public void SetHpBar(float normalizedHp)
     {
         hpBar.DOFillAmount(normalizedHp, 0.5f).SetEase(Ease.OutCubic);
