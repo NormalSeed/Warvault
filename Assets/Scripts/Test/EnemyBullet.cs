@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyBullet : PooledObject
 {
-    [SerializeField] float lifeTime = 2.0f;
+    [SerializeField] float lifeTime = 4.0f;
     [SerializeField] int damage = 10;
     float timer;
 
@@ -33,7 +33,8 @@ public class EnemyBullet : PooledObject
             {
                 player.TakeDamage(damage);
             }
-            ReturnPool();
         }
+
+        ReturnPool();
     }
 }

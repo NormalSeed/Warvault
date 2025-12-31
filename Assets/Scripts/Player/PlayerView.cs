@@ -12,6 +12,7 @@ public class PlayerView : MonoBehaviour
     public Actions Actions { get; private set; }
 
     [SerializeField] Image hpBar;
+    [SerializeField] GameObject model;
 
     void Awake()
     {
@@ -48,5 +49,10 @@ public class PlayerView : MonoBehaviour
     public void SetHpBar(float normalizedHp)
     {
         hpBar.DOFillAmount(normalizedHp, 0.5f).SetEase(Ease.OutCubic);
+    }
+
+    public void SetTransparency(bool isTransparant)
+    {
+        model.SetActive(!isTransparant);
     }
 }

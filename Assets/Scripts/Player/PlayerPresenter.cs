@@ -50,6 +50,9 @@ public class PlayerPresenter : MonoBehaviour
             HandleMovement();
             HandleAnimation();
 
+            bool isAiming = Input.GetMouseButton(1);
+            view.SetTransparency(isAiming);
+
             // 총알 발사 로직
             if (Input.GetMouseButtonDown(0) && curWeapon.fireDelay <= 0)
             {

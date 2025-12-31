@@ -9,7 +9,7 @@ public class TestBullet : PooledObject
     public override void OnSpawn()
     {
         timer = 0f;
-        GetComponent<Rigidbody>().velocity = transform.forward * 10f;
+        GetComponent<Rigidbody>().velocity = transform.forward * 30f;
     }
 
     void Update()
@@ -31,7 +31,8 @@ public class TestBullet : PooledObject
             {
                 enemy.TakeDamage(damage);
             }
-            ReturnPool();
         }
+
+        ReturnPool();
     }
 }

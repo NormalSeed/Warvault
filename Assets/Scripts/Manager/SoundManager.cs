@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.VisionOS;
-using UnityEngine;
-using static SoundManager;
+﻿using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {

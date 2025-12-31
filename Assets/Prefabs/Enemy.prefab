@@ -703,8 +703,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22faad3079ec11a49b948977202ad11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DetectRange: 5
-  AttackRange: 2
+  target: {fileID: 0}
+  DetectRange: 30
+  AttackRange: 15
   firePoint1: {fileID: 6478759161054884899}
   firePoint2: {fileID: 5186005235947461241}
   isDead: 0
@@ -718,7 +719,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
